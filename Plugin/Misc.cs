@@ -96,6 +96,23 @@ namespace Kethane
             return resources;
         }
 
+        public static AudioSource GetAudioSourceFromFile(String soundName, GameObject attachObject)
+        {
+            var sound = attachObject.AddComponent<AudioSource>();
+            WWW www = new WWW("file://" + KSPUtil.ApplicationRootPath.Replace("\\", "/") + "PluginData/mmi_kethane/sounds/" + soundName + ".wav");
+            if ((sound != null) && (www != null))
+            {
+                sound.clip = www.GetAudioClip(false);
+                sound.volume = 0;
+                sound.Stop();
+            }
+            else
+            {
+                throw new Exception("Failed to load Kethane audio resource: " + soundName);
+            }
+            return sound;
+        }
+
         public static float Dot(this Vector3 lhs, Vector3 rhs) { return Vector3.Dot(lhs, rhs); }
     }
 }

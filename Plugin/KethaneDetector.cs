@@ -94,23 +94,9 @@ namespace Kethane
             if (state == StartState.Editor) { return; }
             this.part.force_activate();
             #region Sound effects
-            PingEmpty = gameObject.AddComponent<AudioSource>();
-            WWW wwwE = new WWW("file://" + KSPUtil.ApplicationRootPath.Replace("\\", "/") + "PluginData/mmi_kethane/sounds/echo_empty.wav");
-            if ((PingEmpty != null) && (wwwE != null))
-            {
-                PingEmpty.clip = wwwE.GetAudioClip(false);
-                PingEmpty.volume = 1;
-                PingEmpty.Stop();
-            }
-
-            PingDeposit = gameObject.AddComponent<AudioSource>();
-            WWW wwwD = new WWW("file://" + KSPUtil.ApplicationRootPath.Replace("\\", "/") + "PluginData/mmi_kethane/sounds/echo_deposit.wav");
-            if ((PingDeposit != null) && (wwwD != null))
-            {
-                PingDeposit.clip = wwwD.GetAudioClip(false);
-                PingDeposit.volume = 1;
-                PingDeposit.Stop();
-            }
+            PingEmpty = Misc.GetAudioSourceFromFile("echo_empty", this.gameObject);
+            PingDeposit = Misc.GetAudioSourceFromFile("echo_deposit", this.gameObject);
+            PingEmpty.volume = PingDeposit.volume = 1;
             #endregion
         }
 

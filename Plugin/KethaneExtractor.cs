@@ -180,23 +180,10 @@ namespace Kethane
             }
             #endregion
             #region Sound effects
-            DrillIn = gameObject.AddComponent<AudioSource>();
-            WWW dIn = new WWW("file://" + KSPUtil.ApplicationRootPath.Replace("\\", "/") + "PluginData/mmi_kethane/sounds/drillIn.wav");
-            if ((DrillIn != null) && (dIn != null))
-            {
-                DrillIn.clip = dIn.GetAudioClip(false);
-                DrillIn.volume = 2;
-                DrillIn.Stop();
-            }
-
-            DrillOut = gameObject.AddComponent<AudioSource>();
-            WWW dOut = new WWW("file://" + KSPUtil.ApplicationRootPath.Replace("\\", "/") + "PluginData/mmi_kethane/sounds/drillOut.wav");
-            if ((DrillOut != null) && (dOut != null))
-            {
-                DrillOut.clip = dOut.GetAudioClip(false);
-                DrillOut.volume = 0.25f;
-                DrillOut.Stop();
-            }
+            DrillIn = Misc.GetAudioSourceFromFile("drillIn", this.gameObject);
+            DrillIn.volume = 2;
+            DrillOut = Misc.GetAudioSourceFromFile("drillOut", this.gameObject);
+            DrillOut.volume = 0.25f;
             #endregion
             #region Child model parts
 
