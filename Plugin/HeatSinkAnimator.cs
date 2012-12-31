@@ -57,6 +57,8 @@ namespace Kethane
             openAnimationStates = SetUpAnimation(OpenAnimation);
             heatAnimationStates = SetUpAnimation(HeatAnimation);
 
+            if (state == StartState.Editor) { return; }
+
             openSound = Misc.GetAudioSourceFromFile(OpenSound, this.gameObject);
             closeSound = Misc.GetAudioSourceFromFile(CloseSound, this.gameObject);
             openSound.volume = closeSound.volume = 1;
