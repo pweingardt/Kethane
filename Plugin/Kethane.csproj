@@ -53,6 +53,7 @@
     <Compile Include="KethaneDebugger.cs" />
     <Compile Include="KethaneDetector.cs" />
     <Compile Include="KethaneExtractor.cs" />
+    <Compile Include="KethaneMapViewer.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="OrthogonalIntake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
