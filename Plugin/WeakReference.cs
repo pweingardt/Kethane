@@ -19,7 +19,7 @@ namespace Kethane
             : base(target)
         {
 
-        }
+		}
 
         /// <summary>
         /// Initializes a new instance of the  <see cref="WeakReference&lt;T&gt;"/> class, referencing

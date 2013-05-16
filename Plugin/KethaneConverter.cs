@@ -8,6 +8,9 @@ namespace Kethane
 {
     public class KethaneConverter : PartModule
     {
+		[KSPField(isPersistant = false)]
+		public String SourceResource;
+
         [KSPField(isPersistant = false)]
         public string TargetResource;
 
@@ -15,7 +18,7 @@ namespace Kethane
         public float ConversionEfficiency;
 
         [KSPField(isPersistant = false)]
-        public float KethaneConsumption;
+        public float ResourceConsumption;
 
         [KSPField(isPersistant = false)]
         public float PowerConsumption;
@@ -58,7 +61,8 @@ namespace Kethane
 
         public override string GetInfo()
         {
-            return String.Format("{0}:\n- Conversion Efficiency: {1:P0}\n- Kethane Consumption: {2:F1}L/s\n- Power Consumption: {3:F1}/s", TargetResource, ConversionEfficiency, KethaneConsumption, PowerConsumption);
+			return String.Format("{0}:\n- Conversion Efficiency: {1:P0}\n- " + SourceResource + 
+			                     " Consumption: {2:F1}L/s\n- Power Consumption: {3:F1}/s", TargetResource, ConversionEfficiency, ResourceConsumption, PowerConsumption);
         }
 
         public override void OnStart(PartModule.StartState state)
@@ -80,18 +84,18 @@ namespace Kethane
         {
             if (!IsEnabled) { return; }
 
-            var conversionRatio = PartResourceLibrary.Instance.GetDefinition("Kethane").density / PartResourceLibrary.Instance.GetDefinition(TargetResource).density;
+			var conversionRatio = PartResourceLibrary.Instance.GetDefinition(SourceResource).density / PartResourceLibrary.Instance.GetDefinition(TargetResource).density;
 
-            double requestedSpace = KethaneConsumption * conversionRatio * ConversionEfficiency * TimeWarp.fixedDeltaTime;
-            double requestedKethane = KethaneConsumption * TimeWarp.fixedDeltaTime;
+            double requestedSpace = ResourceConsumption * conversionRatio * ConversionEfficiency * TimeWarp.fixedDeltaTime;
+            double requestedResource = ResourceConsumption * TimeWarp.fixedDeltaTime;
             double requestedEnergy = PowerConsumption * TimeWarp.fixedDeltaTime;
 
             var availableSpace = Misc.GetConnectedResources(this.part, TargetResource).Max(r => r.maxAmount - r.amount);
-            var availableKethane = Misc.GetConnectedResources(this.part, "Kethane").Max(r => r.amount);
+			var availableKethane = Misc.GetConnectedResources(this.part, SourceResource).Max(r => r.amount);
             var availableEnergy = Misc.GetConnectedResources(this.part, "ElectricCharge").Max(r => r.amount);
 
             var spaceRatio = availableSpace / requestedSpace;
-            var kethaneRatio = availableKethane / requestedKethane;
+            var kethaneRatio = availableKethane / requestedResource;
             var energyRatio = availableEnergy / requestedEnergy;
 
             var ratio = Math.Min(Math.Min(Math.Min(spaceRatio, kethaneRatio), energyRatio), 1);
@@ -103,11 +107,11 @@ namespace Kethane
                 ratio *= heatsink.AddHeat(heatRequest) / heatRequest;
             }
 
-            requestedKethane *= ratio;
+            requestedResource *= ratio;
 
-            var drawnKethane = this.part.RequestResource("Kethane", requestedKethane);
+			var drawnKethane = this.part.RequestResource(SourceResource, requestedResource);
 
-            ratio *= drawnKethane / requestedKethane;
+            ratio *= drawnKethane / requestedResource;
             requestedEnergy *= ratio;
 
             var drawnEnergy = this.part.RequestResource("ElectricCharge", requestedEnergy);

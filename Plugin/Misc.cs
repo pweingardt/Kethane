@@ -65,7 +65,9 @@ namespace Kethane
             if (Physics.Raycast(CoM, -up, out sfc, (float)altitudeASL + 10000.0F, 1 << 15))
                 altitudeTrue = sfc.distance;
             else if (vessel.mainBody.pqsController != null)
-                altitudeTrue = vessel.mainBody.GetAltitude(CoM) - (vessel.mainBody.pqsController.GetSurfaceHeight(QuaternionD.AngleAxis(vessel.mainBody.GetLongitude(CoM), Vector3d.down) * QuaternionD.AngleAxis(vessel.mainBody.GetLatitude(CoM), Vector3d.forward) * Vector3d.right) - vessel.mainBody.pqsController.radius);
+                altitudeTrue = vessel.mainBody.GetAltitude(CoM) - (vessel.mainBody.pqsController
+				                                                   .GetSurfaceHeight(QuaternionD.AngleAxis(vessel.mainBody.GetLongitude(CoM), Vector3d.down) 
+				                  * QuaternionD.AngleAxis(vessel.mainBody.GetLatitude(CoM), Vector3d.forward) * Vector3d.right) - vessel.mainBody.pqsController.radius);
             else
                 altitudeTrue = vessel.mainBody.GetAltitude(CoM);
             return altitudeTrue;

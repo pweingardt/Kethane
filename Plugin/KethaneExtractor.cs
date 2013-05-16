@@ -384,6 +384,10 @@ namespace Kethane
                     float Amount = TimeWarp.fixedDeltaTime * ExtractionRate * (energy / energyRequest);
                     Amount = Math.Min(Amount, DepositUnder.Kethane);
                     DepositUnder.Kethane += this.part.RequestResource("Kethane", -Amount);
+
+					Amount = TimeWarp.fixedDeltaTime * ExtractionRate * (energy / energyRequest);
+					Amount = Math.Min(Amount, DepositUnder.Kuranium);
+					DepositUnder.Kuranium += this.part.RequestResource("Kuranium", -Amount);
                 }
             }
         }

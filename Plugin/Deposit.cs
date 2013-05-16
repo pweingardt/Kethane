@@ -63,7 +63,12 @@ namespace Kethane
         public float Kethane { get; set; }
         public float InitialKethaneAmount { get; set; }
 
+		public float Kuranium { get; set; }
+		public float InitialKuraniumAmount { get; set; }
+
         public float Depth = 1.0f;
+
+		public const float MaximumAmount = 500000;
 
         public void Generate(Vector3 Pos, float r)
         {
@@ -71,8 +76,11 @@ namespace Kethane
             Position = new Point(Pos.x, Pos.z);
             Depth = UnityEngine.Random.Range(1.0f, 2.0f);
 
-            InitialKethaneAmount = UnityEngine.Random.Range(10000, 500000);
+			InitialKethaneAmount = UnityEngine.Random.Range(10000, MaximumAmount);
             Kethane = InitialKethaneAmount;
+
+			InitialKuraniumAmount = UnityEngine.Random.Range(10000, MaximumAmount);
+			Kuranium = InitialKuraniumAmount;
 
             Vertices = new List<Point>();
             int VerticesCount = UnityEngine.Random.Range(20, 50);
